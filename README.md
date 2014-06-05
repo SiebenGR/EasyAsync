@@ -9,17 +9,16 @@ retained {@link android.app.Fragment} or a {@link android.support.v4.app.Fragmen
 <p>
 Acquire the object as a singleton
 <code>
-    {@literal @}EasyAsync.getInstance();
+    EasyAsync.getInstance();
 </code></p>
-The {@link gr.sieben.easyasync.EasyAsync} interaction must be made inside a {@link android.support.v4.app.FragmentActivity} or
-a {@link android.app.Activity}.
+The EasyAsync interaction must be made inside a FragmentActivity or a Activity.
 <p>
 Firstly you have to initialise the object by using one of the following:
 <li>
-{@link #init(android.support.v4.app.FragmentManager, OnEasyAsyncFinished)}
+<code>EasyAsync.getInstance().init(android.support.v4.app.FragmentManager, OnEasyAsyncFinished);</code>
 </li>
 <li>
-{@link #init(android.app.FragmentManager, OnEasyAsyncFinished)}
+<code>EasyAsync.getInstance().init(android.app.FragmentManager, OnEasyAsyncFinished);</code>
 </li>
 </p>
 
@@ -29,7 +28,7 @@ and not after a particular event
 <p>
 Quick Example 1:
 <pre><code>
-{@literal @}Override
+@Override
 protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
@@ -45,7 +44,7 @@ protected void onCreate(Bundle savedInstanceState) {
 <p>
 Quick Example 2:
 <pre><code>
-{@literal @}Override
+@Override
 protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
@@ -63,23 +62,19 @@ protected void onCreate(Bundle savedInstanceState) {
 </code></pre>
 </p>
 <p>
-In the {@link android.app.Activity} or {@link android.support.v4.app.FragmentActivity} class you have to create public methods
-that are annotated with {@link gr.sieben.easyasync.BackgroundJob} annotation and you must specify an id. This method will be triggered
-in the different states of the {@link android.os.AsyncTask}. Read the {@link android.os.AsyncTask} documentation
-<a href="http://developer.android.com/reference/android/os/AsyncTask.html">here</a>.
-An {@link gr.sieben.easyasync.BackgroundJob} annotated method must have <u>zero</u> parameters,
-<u>one</u> parameter of type {@link gr.sieben.easyasync.EasyAsyncCallbacks} or
-<u>two</u> parameters of types ({@link gr.sieben.easyasync.EasyAsyncCallbacks}, {@link gr.sieben.easyasync.EasyAsyncResult}).
+In the android.app.Activity or android.support.v4.app.FragmentActivity class you have to create public methods
+that are annotated with the <code>@BackgroundJob</code> annotation and you must specify an id as a String. This method will be triggered in the different states of the AsyncTask. (Read the AsyncTask documentation <a href="http://developer.android.com/reference/android/os/AsyncTask.html">here</a>.)
+A @BackgroundJob annotated method must have <u>zero</u> parameters, <u>one</u> parameter of type <code>EasyAsyncCallbacks</code> or <u>two</u> parameters of types <code>(EasyAsyncCallbacks, EasyAsyncResult)</code>.
 <li>
-{@link gr.sieben.easyasync.EasyAsyncCallbacks} indicate the AsyncTask states
+<b>EasyAsyncCallbacks:</b> indicate the AsyncTask states
 </li>
 <li>
-{@link gr.sieben.easyasync.EasyAsyncResult} is an object that is used across AsyncTask to maintain the parameters and the results of the asynchronous calls
+<b>EasyAsyncResult:</b> is an object that is used across AsyncTask to maintain the parameters and the results of the asynchronous calls
 </li>
 
 Full Quick Example:
 <pre><code>
-{@literal @}BackgroundJob(id = "demoid")
+@BackgroundJob(id = "demoid")
 public void demoAsync(EasyAsyncCallbacks callbacks, EasyAsyncResult<String, String> args) {
      if(callbacks == EasyAsyncCallbacks.ON_BACKGROUND) {
          //do stuff in the background and set the result in the args object
@@ -97,10 +92,9 @@ To start the background job you must use the {@linkplain #start(String)} or {@li
 background job id that is used in the annotated parameter. Using {@linkplain #start(String)} method the background job is executed once and then
 is cached in memory. If you start a specific background job again then the annotated method will be invoked like it has been executed.
 If a background job needs to be re-executed then call forceStart, it will re-schedule the async task.
-<b>NOTE: If the background job has already finished during an orientation change the annotated method will be invoked again
-as though it has just finished, for convenience. You can change this behavior by using {@link gr.sieben.easyasync.EasyAsyncResult#setCallbackInConfigurationChange(boolean)} method.</b>
+<b>NOTE: If the background job has already finished during an orientation change the annotated method will be invoked again as though it has just finished, for convenience. You can change this behavior by using <code>setCallbackInConfigurationChange(boolean)</code> method.</b>
 </p>
 <p>
-To avoid memory leaks you should invoke {@linkplain #destroy(android.app.Activity)} or {@linkplain #destroy(android.support.v4.app.FragmentActivity)}
-in the {@link android.app.Activity#onDestroy()} method of your activity respectively.
+To avoid memory leaks you should invoke <code>EasyAsync.getInstance().destroy(android.app.Activity)</code> or <code>EasyAsync.getInstance().destroy(android.support.v4.app.FragmentActivity)</code>
+in the <code>android.app.Activity#onDestroy()</code> method of your activity respectively.
 </p>
