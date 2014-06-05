@@ -4,8 +4,8 @@ EasyAsync
 A library made to make asynchronous calls in android very easy
 
 EasyAsync library is a library that makes asynchronous calls very easy and compact, minimizing the boilerplate
-code that a developer has to write. All the asynchronous calls are invoked inside an {@link android.os.AsyncTask} in a
-retained {@link android.app.Fragment} or a {@link android.support.v4.app.Fragment}
+code that a developer has to write. All the asynchronous calls are invoked inside an android.os.AsyncTask in a
+retained android.app.Fragment or a android.support.v4.app.Fragment
 <p>
 Acquire the object as a singleton
 <code>
@@ -23,8 +23,7 @@ Firstly you have to initialise the object by using one of the following:
 </p>
 
 <b>NOTE: During configuration changes you have to avoid reinitialising the object</b>
-You have to implement the {@link gr.sieben.easyasync.OnEasyAsyncFinished} when you want to start an asynchronous call during initialization
-and not after a particular event
+You have to implement the <code>gr.sieben.easyasync.OnEasyAsyncFinished</code> when you want to start an asynchronous call during initialization and not after a particular event.
 <p>
 Quick Example 1:
 <pre><code>
