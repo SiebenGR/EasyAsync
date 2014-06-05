@@ -64,13 +64,12 @@ protected void onCreate(Bundle savedInstanceState) {
 In the android.app.Activity or android.support.v4.app.FragmentActivity class you have to create public methods
 that are annotated with the <code>@BackgroundJob</code> annotation and you must specify an id as a String. This method will be triggered in the different states of the AsyncTask. (Read the AsyncTask documentation <a href="http://developer.android.com/reference/android/os/AsyncTask.html">here</a>.)
 A @BackgroundJob annotated method must have <u>zero</u> parameters, <u>one</u> parameter of type <code>EasyAsyncCallbacks</code> or <u>two</u> parameters of types <code>(EasyAsyncCallbacks, EasyAsyncResult)</code>.
-<li>
+<br/>
 <b>EasyAsyncCallbacks:</b> indicate the AsyncTask states
-</li>
-<li>
+<br/>
 <b>EasyAsyncResult:</b> is an object that is used across AsyncTask to maintain the parameters and the results of the asynchronous calls
-</li>
-
+</p>
+<p>
 Full Quick Example:
 <pre><code>
 @BackgroundJob(id = "demoid")
