@@ -86,12 +86,15 @@ public void demoAsync(EasyAsyncCallbacks callbacks, EasyAsyncResult<String, Stri
 </code></pre>
 </p>
 <p>
-To start the background job you must use the {@linkplain #start(String)} or {@linkplain #forceStart(String)} method with the desired
-background job id that is used in the annotated parameter. Using {@linkplain #start(String)} method the background job is executed once and then
+To start the background job you must use the <code>EasyAsync.getInstance().start(String id)</code> or <code>EasyAsync.getInstance().forceStart(String id)</code> method with the desired background job id that is used in the annotated method. 
+<br/>Using <b>EasyAsync.getInstance().start(String id)</b> method the background job is executed once and then
 is cached in memory. If you start a specific background job again then the annotated method will be invoked like it has been executed.
-If a background job needs to be re-executed then call forceStart, it will re-schedule the async task.
-<b>NOTE: If the background job has already finished during an orientation change the annotated method will be invoked again as though it has just finished, for convenience. You can change this behavior by using <code>setCallbackInConfigurationChange(boolean)</code> method.</b>
+<br/>If a background job needs to be re-executed then call <b>EasyAsync.getInstance().forceStart(String id)</b>, it will re-schedule the async task.
 </p>
+<p>
+<b>NOTE: If the background job has already finished during an orientation change the annotated method will be invoked again as though it has just finished, for convenience. You can change this behavior by using <code>EasyAsyncResult.setCallbackInConfigurationChange(boolean)</code> method in the annotated method parameters.</b>
+</p>
+
 <p>
 To avoid memory leaks you should invoke <code>EasyAsync.getInstance().destroy(android.app.Activity)</code> or <code>EasyAsync.getInstance().destroy(android.support.v4.app.FragmentActivity)</code>
 in the <code>android.app.Activity#onDestroy()</code> method of your activity respectively.
