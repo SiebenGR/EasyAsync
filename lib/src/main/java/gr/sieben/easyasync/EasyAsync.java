@@ -3,6 +3,7 @@ package gr.sieben.easyasync;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
@@ -142,9 +143,15 @@ public class EasyAsync {
      * @param fragmentManager The fragment manager of the current Activity. FragmentManager must not have pending transactions.
      */
     public void init(FragmentManager fragmentManager) {
-        retainedSupportFragment = RetainedSupportFragment.newInstance();
-        fragmentManager.beginTransaction().add(retainedSupportFragment,
-                FragmentController.FRAGMENT_TAG).commit();
+        Fragment tagFragment = fragmentManager.findFragmentByTag(FragmentController.FRAGMENT_TAG);
+        if(tagFragment != null)
+            retainedSupportFragment = (RetainedSupportFragment) tagFragment;
+        else {
+            retainedSupportFragment = RetainedSupportFragment.newInstance();
+            fragmentManager.beginTransaction().add(retainedSupportFragment,
+                    FragmentController.FRAGMENT_TAG).commit();
+            fragmentManager.executePendingTransactions();
+        }
     }
 
     /**
@@ -155,9 +162,15 @@ public class EasyAsync {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void init(android.app.FragmentManager fragmentManager) {
-        retainedFragment = RetainedFragment.newInstance();
-        fragmentManager.beginTransaction().add(retainedFragment,
-                FragmentController.FRAGMENT_TAG).commit();
+        android.app.Fragment tagFragment = fragmentManager.findFragmentByTag(FragmentController.FRAGMENT_TAG);
+        if(tagFragment != null)
+            retainedFragment = (RetainedFragment) tagFragment;
+        else {
+            retainedFragment = RetainedFragment.newInstance();
+            fragmentManager.beginTransaction().add(retainedFragment,
+                    FragmentController.FRAGMENT_TAG).commit();
+            fragmentManager.executePendingTransactions();
+        }
     }
 
     /**
