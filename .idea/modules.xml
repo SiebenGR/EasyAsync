@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EasyAsync.iml" filepath="$PROJECT_DIR$/EasyAsync.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EasyAsyncLibrary/EasyAsyncLibrary.iml" filepath="$PROJECT_DIR$/EasyAsyncLibrary/EasyAsyncLibrary.iml" />
     </modules>
   </component>
 </project>
