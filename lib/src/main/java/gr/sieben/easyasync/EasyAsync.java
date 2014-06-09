@@ -27,17 +27,13 @@ import gr.sieben.easyasync.exceptions.EasyAsyncRuntimeException;
  * <p>
  * Firstly you have to initialise the object by using one of the following:
  * <li>
- * {@link #init(android.support.v4.app.FragmentManager, OnEasyAsyncFinished)}
+ * {@link #init(android.support.v4.app.FragmentManager)}
  * </li>
  * <li>
- * {@link #init(android.app.FragmentManager, OnEasyAsyncFinished)}
+ * {@link #init(android.app.FragmentManager)}
  * </li>
  * </p>
- *
- * <b>NOTE: During configuration changes you have to avoid reinitialising the object</b>
- * You have to implement the {@link gr.sieben.easyasync.OnEasyAsyncFinished} when you want to start an asynchronous call during initialization
- * and not after a particular event
- * <p>
+ *<p>
  * Quick Example 1:
  * <pre><code>
  * {@literal @}Override
@@ -45,8 +41,7 @@ import gr.sieben.easyasync.exceptions.EasyAsyncRuntimeException;
  *      super.onCreate(savedInstanceState);
  *      setContentView(R.layout.activity_main);
  *
- *      if(savedInstanceState == null) //if it is called after a configuration change then do not initialise it
- *          EasyAsync.getInstance().init(getSupportFragmentManager(), null);
+ *      EasyAsync.getInstance().init(getSupportFragmentManager(), null);
  *
  *      //...other stuff goes here
  * }
@@ -61,15 +56,10 @@ import gr.sieben.easyasync.exceptions.EasyAsyncRuntimeException;
  *      super.onCreate(savedInstanceState);
  *      setContentView(R.layout.activity_main);
  *
- *      if(savedInstanceState == null) //if it is called after a configuration change then do not initialise it
- *          EasyAsync.getInstance().init(getFragmentManager(), new OnEasyAsyncFinished() {
- *              {@literal @)Override
- *              public void onFinished() {
- *                  //you should start an asynchronous operation here
- *              }
- *          });
+ *      EasyAsync.getInstance().init(getFragmentManager(), new OnEasyAsyncFinished() {
+ *      //you can now start asynchronous operations here
  *
- *      //...other stuff goes here
+ *      //other stuff goes here...
  * }
  * </code></pre>
  * </p>
@@ -145,19 +135,13 @@ public class EasyAsync {
     private RetainedSupportFragment retainedSupportFragment;
     private RetainedFragment retainedFragment;
 
-    private boolean isInitialised = false;
-    //onFinishedCallback when the RetainedFragment has been attached to the activity and is available
-    private OnEasyAsyncFinished onFinishedCallback;
-
     /**
      * Basic method for initialisation. For pre Honeycomb devices.
      * <b>This must be called only one time and not during configuration changes</b>
      * See documentation for more details.
      * @param fragmentManager The fragment manager of the current Activity. FragmentManager must not have pending transactions.
-     * @param finishedCallback The callback that indicates that the user can start invoking background jobs. Can be NULL.
      */
-    public void init(FragmentManager fragmentManager, OnEasyAsyncFinished finishedCallback) {
-        onFinishedCallback = finishedCallback;
+    public void init(FragmentManager fragmentManager) {
         retainedSupportFragment = RetainedSupportFragment.newInstance();
         fragmentManager.beginTransaction().add(retainedSupportFragment,
                 FragmentController.FRAGMENT_TAG).commit();
@@ -168,11 +152,9 @@ public class EasyAsync {
      * <b>This must be called only one time and not during configuration changes</b>
      * See documentation for more details.
      * @param fragmentManager The fragment manager of the current Activity. FragmentManager must not have pending transactions.
-     * @param finishedCallback The callback that indicates that the user can start invoking background jobs. Can be NULL.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void init(android.app.FragmentManager fragmentManager, OnEasyAsyncFinished finishedCallback) {
-        onFinishedCallback = finishedCallback;
+    public void init(android.app.FragmentManager fragmentManager) {
         retainedFragment = RetainedFragment.newInstance();
         fragmentManager.beginTransaction().add(retainedFragment,
                 FragmentController.FRAGMENT_TAG).commit();
@@ -233,8 +215,7 @@ public class EasyAsync {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void destroy(Activity activity) {
         if(activity.isFinishing()) {
-            mAnnotatedMethods.clear();
-            retainedSupportFragment = null;
+            destroy();
         }
     }
 
@@ -244,20 +225,15 @@ public class EasyAsync {
      */
     public void destroy(FragmentActivity activity) {
         if(activity.isFinishing()) {
-            mAnnotatedMethods.clear();
-            retainedFragment = null;
+            destroy();
         }
     }
 
-    /**
-     * Method is invoked when the fragment has been attached to the Activity
-     */
-    void invokeOnFinishedCallback() {
-       if(!isInitialised) {
-           isInitialised = true;
-           if(onFinishedCallback != null)
-               onFinishedCallback.onFinished();
-       }
+    //overloaded method to clear the references
+    private void destroy() {
+        mAnnotatedMethods.clear();
+        retainedFragment = null;
+        retainedSupportFragment = null;
     }
 
     /**

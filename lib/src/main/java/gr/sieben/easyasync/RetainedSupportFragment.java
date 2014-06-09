@@ -27,9 +27,6 @@ class RetainedSupportFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //retain fragment across coniguration changes
         setRetainInstance(true);
-
-        //the fragment is ready for use
-        EasyAsync.getInstance().invokeOnFinishedCallback();
     }
 
     @Override

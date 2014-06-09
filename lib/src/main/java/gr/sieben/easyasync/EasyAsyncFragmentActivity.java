@@ -14,12 +14,12 @@ import android.support.v4.app.FragmentActivity;
  * <li>{@linkplain #cancelBackgroundJob(String)} Cancels a background job with the respective id</li>
  * </p>
  */
-public abstract class EasyAsyncFragmentActivity extends FragmentActivity implements OnEasyAsyncFinished{
+public abstract class EasyAsyncFragmentActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null) {
-            EasyAsync.getInstance().init(getSupportFragmentManager(), this);
+            EasyAsync.getInstance().init(getSupportFragmentManager());
         }
     }
 

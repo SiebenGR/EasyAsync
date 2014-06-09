@@ -17,13 +17,13 @@ import android.os.Bundle;
  * </p>
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public abstract class EasyAsyncActivity extends Activity implements OnEasyAsyncFinished{
+public abstract class EasyAsyncActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null) {
-            EasyAsync.getInstance().init(getFragmentManager(), this);
+            EasyAsync.getInstance().init(getFragmentManager());
         }
     }
 

@@ -22,6 +22,7 @@ android {
     }
 }
 
+//to export a jar file of the library use this command: gradlew clean javadocRelease jarRelease in the console of the root
 android.libraryVariants.all { variant ->
     task("generate${variant.name}Javadoc", type: Javadoc) {
         description "Generates Javadoc for $variant.name."
