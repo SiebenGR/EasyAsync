@@ -15,15 +15,13 @@ The EasyAsync interaction must be made inside a FragmentActivity or a Activity.
 <p>
 Firstly you have to initialise the object by using one of the following:
 <li>
-<code>EasyAsync.getInstance().init(android.support.v4.app.FragmentManager, OnEasyAsyncFinished);</code>
+<code>EasyAsync.getInstance().init(android.support.v4.app.FragmentManager);</code>
 </li>
 <li>
-<code>EasyAsync.getInstance().init(android.app.FragmentManager, OnEasyAsyncFinished);</code>
+<code>EasyAsync.getInstance().init(android.app.FragmentManager);</code>
 </li>
 </p>
 
-<b>NOTE: During configuration changes you have to avoid reinitialising the object</b>
-You have to implement the <code>gr.sieben.easyasync.OnEasyAsyncFinished</code> when you want to start an asynchronous call during initialization and not after a particular event.
 <p>
 Quick Example 1:
 <pre><code>
@@ -32,8 +30,7 @@ protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
 
-     if(savedInstanceState == null) //if it is called after a configuration change then do not initialise it
-         EasyAsync.getInstance().init(getSupportFragmentManager(), null);
+     EasyAsync.getInstance().init(getSupportFragmentManager(), null);
 
      //...other stuff goes here
 }
@@ -48,13 +45,8 @@ protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
 
-     if(savedInstanceState == null) //if it is called after a configuration change then do not initialise it
-         EasyAsync.getInstance().init(getFragmentManager(), new OnEasyAsyncFinished() {
-             {@literal @)Override
-             public void onFinished() {
-                 //you should start an asynchronous operation here
-             }
-         });
+     EasyAsync.getInstance().init(getFragmentManager());
+     //you should start an asynchronous operation here
 
      //...other stuff goes here
 }
@@ -97,5 +89,24 @@ is cached in memory. If you start a specific background job again then the annot
 
 <p>
 To avoid memory leaks you should invoke <code>EasyAsync.getInstance().destroy(android.app.Activity)</code> or <code>EasyAsync.getInstance().destroy(android.support.v4.app.FragmentActivity)</code>
-in the <code>android.app.Activity#onDestroy()</code> method of your activity respectively.
+in the <code>onDestroy()</code> method of your Activity respectively.
 </p>
+
+License
+=========
+
+<pre><code>
+Copyright 2014 SiEBEN Innovative Solutions
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
