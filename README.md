@@ -30,7 +30,7 @@ protected void onCreate(Bundle savedInstanceState) {
      super.onCreate(savedInstanceState);
      setContentView(R.layout.activity_main);
 
-     EasyAsync.getInstance().init(getSupportFragmentManager(), null);
+     EasyAsync.getInstance().init(getSupportFragmentManager());
 
      //...other stuff goes here
 }
