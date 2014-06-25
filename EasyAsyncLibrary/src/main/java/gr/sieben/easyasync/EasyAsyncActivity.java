@@ -22,9 +22,7 @@ public abstract class EasyAsyncActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState == null) {
-            EasyAsync.getInstance().init(getFragmentManager());
-        }
+        EasyAsync.getInstance().init(getFragmentManager());
     }
 
     @Override
